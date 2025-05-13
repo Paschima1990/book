@@ -93,10 +93,23 @@ exportBtn.addEventListener('click', async () => {
   XLSX.writeFile(wb, 'books.xlsx');
 });
 
-// Search Filter
-searchInput.addEventListener('input', () => {
-  applyFilters();
+// Search by name, author, or ISBN
+searchInput.addEventListener('input', async () => {
+  const searchTerm = searchInput.value.toLowerCase().trim();
+  list.innerHTML = ''; // Clear list
+
+  const snapshot = await getDocs(collection(db, 'books'));
+
+  snapshot.forEach(doc => {
+    const data = doc.data();
+    const combinedText = `${data.name} ${data.author} ${data.isbn}`.toLowerCase();
+
+    if (combinedText.includes(searchTerm)) {
+      renderBook(doc);
+    }
+  });
 });
+
 
 // Alphabetical Filter
 alphabetFilter.addEventListener('change', () => {
