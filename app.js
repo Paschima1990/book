@@ -43,17 +43,20 @@ function renderBook(docSnapshot) {
   const data = docSnapshot.data();
   const tr = document.createElement('tr');
   tr.innerHTML = `
-    <td>${data.type || ''}</td>
-    <td>${data.name}</td>
-    <td>${data.author}</td>
-    <td>${data.quantity}</td>
-    <td>${data.isbn}</td>
-    <td>${data.rack}</td>
-    <td>${data.shelf}</td>
-    <td><button onclick="deleteBook('${docSnapshot.id}')">Delete</button></td>
+    <td data-label="Type">${data.type || ''}</td>
+    <td data-label="Book">${data.name}</td>
+    <td data-label="Author">${data.author}</td>
+    <td data-label="Qty">${data.quantity}</td>
+    <td data-label="ISBN">${data.isbn}</td>
+    <td data-label="Rack">${data.rack}</td>
+    <td data-label="Shelf">${data.shelf}</td>
+    <td data-label="Actions">
+      <button onclick="deleteBook('${docSnapshot.id}')">Delete</button>
+    </td>
   `;
   list.appendChild(tr);
 }
+
 
 // Fetch Books
 async function fetchBooks() {
