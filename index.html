@@ -7,9 +7,25 @@
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <h1>📚 Book Manager</h1>
+  <h1> Paschima Stock</h1>
 
   <form id="book-form">
+    <select id="book-type" required>
+      <option value="galpa">ଗଳ୍ପ</option>
+      <option value="kabita-kabya">କବିତା / କବ୍ୟ</option>
+      <option value="upanasya">ଉପନାଷ୍ୟ</option>
+      <option value="sahajogi-grantha">ସହଜୋଗୀ ଗ୍ରନ୍ଥ</option>
+      <option value="prabandha">ପ୍ରବନ୍ଧ</option>
+      <option value="lalita-nibandha">ଲଳିତା ନିବନ୍ଧ</option>
+      <option value="alochana">ଆଲୋଚନା</option>
+      <option value="nataka">ନାଟକ</option>
+      <option value="jibana">ଜୀବନ</option>
+      <option value="sishu-sahitya">ଶିଶୁ ସାହିତ୍ୟ</option>
+      <option value="dharma">ଧର୍ମ</option>
+      <option value="english-hindi">ଇଂରାଜୀ / ହିନ୍ଦୀ</option>
+      <option value="taslima-nasrin">ତସଲିମା ନାସ୍ରିନ</option>
+      <option value="ananya-in-odia">ଅନନ୍ୟା (ଓଡିଆରେ)</option>
+    </select>
     <input type="text" id="name" placeholder="Book Name" required />
     <input type="text" id="author" placeholder="Author" required />
     <input type="number" id="quantity" placeholder="Quantity" required />
@@ -23,11 +39,14 @@
     <input type="file" id="file-input" accept=".xlsx,.csv" />
     <button id="export-btn">Export to Excel</button>
   </div>
+<div>
+  <input type="text" id="search-input" placeholder="Search by name or author..." />
+</div>
 
   <table>
     <thead>
       <tr>
-        <th>Name</th><th>Author</th><th>Qty</th><th>ISBN</th><th>Rack</th><th>Shelf</th><th>Actions</th>
+               <th>Type</th> <th>Book</th><th>Author</th><th>Qty</th><th>ISBN</th><th>Rack</th><th>Shelf</th><th>Actions</th>
       </tr>
     </thead>
     <tbody id="book-list"></tbody>
