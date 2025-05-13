@@ -1,29 +1,35 @@
-import { db, auth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "./firebase.js";
+import { db } from './firebase.js';
 import { collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
+// Elements from HTML
 const form = document.getElementById('book-form');
 const list = document.getElementById('book-list');
 const fileInput = document.getElementById('file-input');
 const exportBtn = document.getElementById('export-btn');
 
-const loginBtn = document.getElementById('login-btn');
-const logoutBtn = document.getElementById('logout-btn');
-const emailInput = document.getElementById('email');
-const passInput = document.getElementById('password');
-const userInfo = document.getElementById('user-info');
+// Add a book
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-function toggleAuthUI(user) {
-  const isLoggedIn = !!user;
-  form.style.display = isLoggedIn ? 'block' : 'none';
-  exportBtn.style.display = isLoggedIn ? 'inline-block' : 'none';
-  fileInput.style.display = isLoggedIn ? 'inline-block' : 'none';
-  logoutBtn.style.display = isLoggedIn ? 'inline-block' : 'none';
-  loginBtn.style.display = isLoggedIn ? 'none' : 'inline-block';
-  emailInput.style.display = isLoggedIn ? 'none' : 'inline-block';
-  passInput.style.display = isLoggedIn ? 'none' : 'inline-block';
-  userInfo.innerText = isLoggedIn ? `Logged in as ${user.email}` : '';
-}
+  // Collect form data
+  const book = {
+    name: form.name.value,
+    author: form.author.value,
+    quantity: parseInt(form.quantity.value),
+    isbn: form.isbn.value,
+    rack: form.rack.value,
+    shelf: form.shelf.value
+  };
 
+  // Add book to Firestore
+  await addDoc(collection(db, 'books'), book);
+  form.reset();
+
+  // Fetch the updated list of books
+  fetchBooks();
+});
+
+// Render a single book
 function renderBook(docSnapshot) {
   const data = docSnapshot.data();
   const tr = document.createElement('tr');
@@ -39,31 +45,18 @@ function renderBook(docSnapshot) {
   list.appendChild(tr);
 }
 
+// Fetch all books from Firestore and display them
 async function fetchBooks() {
-  list.innerHTML = '';
+  list.innerHTML = ''; // Clear the existing list
   const snapshot = await getDocs(collection(db, 'books'));
-  snapshot.forEach(doc => renderBook(doc));
+  snapshot.forEach(doc => renderBook(doc)); // Render each book
 }
 
+// Delete a book
 window.deleteBook = async function(id) {
-  await deleteDoc(doc(db, 'books', id));
-  fetchBooks();
+  await deleteDoc(doc(db, 'books', id)); // Delete book by ID
+  fetchBooks(); // Re-fetch books to update the list
 };
-
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const book = {
-    name: form.name.value,
-    author: form.author.value,
-    quantity: parseInt(form.quantity.value),
-    isbn: form.isbn.value,
-    rack: form.rack.value,
-    shelf: form.shelf.value
-  };
-  await addDoc(collection(db, 'books'), book);
-  form.reset();
-  fetchBooks();
-});
 
 // Excel Upload
 fileInput.addEventListener('change', (e) => {
@@ -73,14 +66,14 @@ fileInput.addEventListener('change', (e) => {
     const workbook = XLSX.read(data, { type: "array" });
     const sheet = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]);
     for (const row of sheet) {
-      await addDoc(collection(db, 'books'), row);
+      await addDoc(collection(db, 'books'), row); // Add each row to Firestore
     }
-    fetchBooks();
+    fetchBooks(); // Re-fetch the list after upload
   };
   reader.readAsArrayBuffer(e.target.files[0]);
 });
 
-// Export Excel
+// Export to Excel
 exportBtn.addEventListener('click', async () => {
   const snapshot = await getDocs(collection(db, 'books'));
   const books = snapshot.docs.map(doc => doc.data());
@@ -90,15 +83,5 @@ exportBtn.addEventListener('click', async () => {
   XLSX.writeFile(wb, 'books.xlsx');
 });
 
-// Auth
-loginBtn.addEventListener('click', () => {
-  signInWithEmailAndPassword(auth, emailInput.value, passInput.value)
-    .catch(err => alert('Login Failed: ' + err.message));
-});
-
-logoutBtn.addEventListener('click', () => signOut(auth));
-
-onAuthStateChanged(auth, (user) => {
-  toggleAuthUI(user);
-  if (user) fetchBooks();
-});
+// Initial fetch when the page loads
+fetchBooks();
