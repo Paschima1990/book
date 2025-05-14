@@ -141,3 +141,12 @@ td button:hover {
     color: #555;
   }
 }
+@media screen and (max-width: 768px) {
+  td[data-label="Actions"] {
+    display: none;
+  }
+
+  th:last-child {
+    display: none;
+  }
+}
