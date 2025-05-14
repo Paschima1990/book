@@ -1,10 +1,10 @@
 {
   "name": "ପଶ୍ଚିମା ପବ୍ଲିକେସ",
-  "short_name": "ପଶ୍ଚିମା",
+  "short_name": "ପଶ୍ଚିମା ପବ୍ଲିକେସ",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#3498db",
+  "theme_color": "#0e1111",
   "icons": [
     {
       "src": "favicon.png",
