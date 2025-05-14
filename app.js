@@ -46,8 +46,9 @@ function renderBook(docSnapshot) {
     <td data-label="Type">${data.type || ''}</td>
     <td data-label="Book">${data.name}</td>
     <td data-label="Author">${data.author}</td>
-    <td data-label="Qty">${data.quantity}</td>
     <td data-label="ISBN">${data.isbn}</td>
+    <td data-label="Qty">${data.quantity}</td>
+    
     <td data-label="Rack">${data.rack}</td>
     <td data-label="Shelf">${data.shelf}</td>
     <td data-label="Actions">
