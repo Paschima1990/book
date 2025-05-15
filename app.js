@@ -7,9 +7,30 @@ import {
   doc
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
+// document.addEventListener('DOMContentLoaded', () => {
+//   fetchBooks();
+// });
+
 document.addEventListener('DOMContentLoaded', () => {
   fetchBooks();
+
+  document.getElementById('confirm-add').addEventListener('click', async () => {
+    if (pendingBookData) {
+      await addDoc(collection(db, 'books'), pendingBookData);
+      form.reset();
+      fetchBooks();
+    }
+
+    pendingBookData = null;
+    document.getElementById('confirm-modal').classList.add('hidden');
+  });
+
+  document.getElementById('cancel-add').addEventListener('click', () => {
+    pendingBookData = null;
+    document.getElementById('confirm-modal').classList.add('hidden');
+  });
 });
+
 // DOM Elements
 const form = document.getElementById('book-form');
 const list = document.getElementById('book-list');
@@ -20,10 +41,12 @@ const alphabetFilter = document.getElementById('alphabet-filter');
 const bookTypeSelect = document.getElementById('book-type');
 
 // Add Book
-form.addEventListener('submit', async (e) => {
+let pendingBookData = null;
+
+form.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  const book = {
+  pendingBookData = {
     type: bookTypeSelect.options[bookTypeSelect.selectedIndex].text,
     name: form.name.value.trim(),
     author: form.author.value.trim(),
@@ -33,10 +56,21 @@ form.addEventListener('submit', async (e) => {
     shelf: form.shelf.value.trim()
   };
 
-  await addDoc(collection(db, 'books'), book);
-  form.reset();
-  fetchBooks();
+  const detailsList = document.getElementById('confirm-details');
+  detailsList.innerHTML = `
+    <li><strong>Type:</strong> ${pendingBookData.type}</li>
+    <li><strong>Name:</strong> ${pendingBookData.name}</li>
+    <li><strong>Author:</strong> ${pendingBookData.author}</li>
+    <li><strong>Quantity:</strong> ${pendingBookData.quantity}</li>
+    <li><strong>ISBN:</strong> ${pendingBookData.isbn}</li>
+    <li><strong>Rack:</strong> ${pendingBookData.rack}</li>
+    <li><strong>Shelf:</strong> ${pendingBookData.shelf}</li>
+  `;
+
+  document.getElementById('confirm-modal').classList.remove('hidden');
 });
+
+
 
 // Render Book
 function renderBook(docSnapshot) {
