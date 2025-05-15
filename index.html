@@ -36,7 +36,7 @@
     <input type="text" id="isbn" placeholder="ISBN" required />
     <input type="number" id="quantity" placeholder="Quantity" required />
     <select id="rack" required>
-    <option value="0">0</option>
+    <option type="number" value="0">Select Rack</option>
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>
@@ -64,8 +64,8 @@
     <option value="25">25</option>
     </select>
     
-    <select id="shelf" required>
-    <option value="0">0</option>
+    <select type="number" id="shelf" required>
+    <option value="0">Select Shelf</option>
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>
@@ -89,7 +89,7 @@
   <table>
     <thead>
       <tr>
-               <th>Type</th> <th>Book</th><th>Author</th><th>ISBN</th><th>Qty</th><th>Rack</th><th>Shelf</th><th>Actions</th>
+        <th>Type</th> <th>Book</th><th>Author</th><th>ISBN</th><th>Qty</th><th>Rack</th><th>Shelf</th><th>Actions</th>
       </tr>
     </thead>
     <tbody id="book-list"></tbody>
