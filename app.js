@@ -52,7 +52,9 @@ function renderBook(docSnapshot) {
     <td data-label="Rack">${data.rack}</td>
     <td data-label="Shelf">${data.shelf}</td>
     <td data-label="Actions">
-      <button onclick="deleteBook('${docSnapshot.id}')">Delete</button>
+    
+      <button onclick="deleteBook('${docSnapshot.id}', '${data.name.replace(/'/g, "\\'")}')">Delete</button>
+
     </td>
   `;
   list.appendChild(tr);
@@ -86,6 +88,26 @@ fileInput.addEventListener('change', (e) => {
   };
   reader.readAsArrayBuffer(e.target.files[0]);
 });
+
+// Delete Book
+window.deleteBook = async function(id) {
+  await deleteDoc(doc(db, 'books', id));
+  fetchBooks();
+};
+
+window.deleteBook = async function(id, name) {
+  const shouldDelete = window.confirm(`Are you sure you want to delete the book "${name}"?`);
+  if (!shouldDelete) return;
+
+  try {
+    await deleteDoc(doc(db, 'books', id));
+    fetchBooks(); // Refresh book list
+  } catch (error) {
+    console.error("Error deleting book:", error);
+    alert("Failed to delete the book.");
+  }
+};
+
 
 // Export to Excel
 exportBtn.addEventListener('click', async () => {
@@ -141,6 +163,7 @@ async function applyFilters() {
     }
   });
 }
+
 
 // Initial Load
 fetchBooks();
