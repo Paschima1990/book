@@ -152,3 +152,132 @@ td button:hover {
     display: none;
   }
 } */
+
+
+/* Modal backdrop */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+/* Show modal */
+.modal:not(.hidden) {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Modal box */
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 420px;
+  padding: 25px 30px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  animation: slideDown 0.3s ease forwards;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Slide down animation */
+@keyframes slideDown {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Heading */
+.modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #222;
+  text-align: center;
+}
+
+/* Details list */
+#confirm-details {
+  list-style: none;
+  padding-left: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 25px;
+  color: #444;
+}
+
+#confirm-details li {
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+}
+
+/* Modal buttons container */
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Buttons common style */
+.btn {
+  padding: 10px 28px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+/* Confirm button - green */
+.btn-confirm {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-confirm:hover {
+  background-color: #218838;
+}
+
+/* Cancel button - gray */
+.btn-cancel {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background-color: #5a6268;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 20px 18px;
+  }
+  
+  .btn {
+    flex: 1;
+    font-size: 0.9rem;
+    padding: 10px 0;
+  }
+  
+  .modal-actions {
+    gap: 12px;
+  }
+}
