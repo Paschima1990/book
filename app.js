@@ -61,8 +61,8 @@ form.addEventListener('submit', (e) => {
     <li><strong>Type:</strong> ${pendingBookData.type}</li>
     <li><strong>Name:</strong> ${pendingBookData.name}</li>
     <li><strong>Author:</strong> ${pendingBookData.author}</li>
-    <li><strong>Quantity:</strong> ${pendingBookData.quantity}</li>
     <li><strong>ISBN:</strong> ${pendingBookData.isbn}</li>
+     <li><strong>Quantity:</strong> ${pendingBookData.quantity}</li>
     <li><strong>Rack:</strong> ${pendingBookData.rack}</li>
     <li><strong>Shelf:</strong> ${pendingBookData.shelf}</li>
   `;
